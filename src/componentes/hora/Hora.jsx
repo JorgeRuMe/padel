@@ -3,17 +3,15 @@ import { Contenedor, Titulo } from './Hora_styles'
 import Formulario from '../../componentes/formulario/Formulario'
 import Formulario2 from '../formulario_2/Formulario2'
 
-const Hora = ({ hour, day, usuario, cargarDeNuevo }) => {
+const Hora = ({ hour, day, usuario }) => {
    const [apartado, setApartado] = useState(null)
    const [displayForm, setDisplayForm] = useState(false)
    const [formulario2, setFormulario2] = useState(false)
-   const [formulario2Id, setFormulario2Id] = useState(null)
    const [number, setNumber] = useState(null)
-
 
    useEffect(() => {
       if (typeof hour === 'object') {
-         if (hour.hora) {
+         if (hour.hora && hour.dia === day) {
             setApartado(true)
          } else {
             setApartado(false)
@@ -45,8 +43,8 @@ const Hora = ({ hour, day, usuario, cargarDeNuevo }) => {
 
     return (
       <>
-      {formulario2 ? <Formulario2 cerrarFormulario2={() => cerrarFormulario2()} cargarDeNuevo={cargarDeNuevo} usuario={usuario} formulario2={formulario2} hour={hour}/> : null}
-      {displayForm ? (<Formulario cerrarFormulario={() => cerrarFormulario()} cargarDeNuevo={cargarDeNuevo} usuario={usuario} hour={hour} day={day} />) : (null)}
+      {formulario2 ? <Formulario2 cerrarFormulario2={() => cerrarFormulario2()} usuario={usuario} formulario2={formulario2} hour={hour}/> : null}
+      {displayForm ? (<Formulario cerrarFormulario={() => cerrarFormulario()}  usuario={usuario} hour={hour} day={day} />) : (null)}
       <Contenedor apartado={apartado} onClick={() => abrirFormulario()} >
          <Titulo>{number}</Titulo> 
       </Contenedor>

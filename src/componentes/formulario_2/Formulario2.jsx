@@ -2,9 +2,9 @@ import { useEffect, useState } from 'react'
 import { db } from '../../firebase/firebase';
 import moment from 'moment'
 
-import { Contenedor, Background, Titulo, Cerrar, Boton } from './Formulario2_styles'
+import { Contenedor, Background, Titulo, Cerrar, Boton, Span } from './Formulario2_styles'
 
-const Formulario2 = ({ hour, cerrarFormulario2, cargarDeNuevo, formulario2, usuario }) => {
+const Formulario2 = ({ hour, cerrarFormulario2, formulario2, usuario }) => {
 
   const [mostrarBoton, setMostrarBoton] = useState(false)
 
@@ -17,10 +17,6 @@ const Formulario2 = ({ hour, cerrarFormulario2, cargarDeNuevo, formulario2, usua
   const cancelarReservacion = () => {
     db.collection('apartados').doc(`semana-${moment().week()}`).collection(`semana-${moment().week()}-apartados`).doc(hour.docId).delete()
     cerrarFormulario2()
-
-    setTimeout(() => {
-      cargarDeNuevo()
-  }, 1000);
   }
 
 
@@ -29,8 +25,8 @@ const Formulario2 = ({ hour, cerrarFormulario2, cargarDeNuevo, formulario2, usua
       <Background>
       <Contenedor>
           <Cerrar onClick={cerrarFormulario2}>Cerrar</Cerrar>
-<Titulo>Nombre: {formulario2.nombre}</Titulo>
-<Titulo>Casa: {formulario2.casa}</Titulo>
+<Titulo>Nombre: <Span>{formulario2.nombre}</Span></Titulo>
+<Titulo>Casa: <Span>{formulario2.casa}</Span></Titulo>
 {mostrarBoton ? <Boton onClick={() => cancelarReservacion()}>Cancelar Reservacion</Boton> : null}
 </Contenedor>
       </Background>

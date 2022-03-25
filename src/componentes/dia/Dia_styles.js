@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 export const Contenedor = styled.div`
 border-radius: 0.25rem;
-background: #023047;
+background: #2b2d42;
 `
 
 export const Titulo = styled.div`

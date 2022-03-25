@@ -3,7 +3,7 @@ import { Background, Contenedor, Titulo, Subtitulo, Input, Boton, Cerrar } from 
 import { db } from '../../firebase/firebase';
 import moment from 'moment'
 
-const Formulario = ({ usuario, hour, day, cerrarFormulario, cargarDeNuevo }) => {
+const Formulario = ({ usuario, hour, day, cerrarFormulario }) => {
     const [nombre, setNombre] = useState('')
     const [casa, setCasa] = useState('')
 
@@ -31,10 +31,6 @@ const Formulario = ({ usuario, hour, day, cerrarFormulario, cargarDeNuevo }) => 
   setCasa('')
 
   cerrarFormulario()
-
-  setTimeout(() => {
-    cargarDeNuevo()
-}, 1000);
  }
 
  const cerrarFormularioFn = () => {

@@ -3,52 +3,44 @@ import Hora from '../hora/Hora'
 import { db } from '../../firebase/firebase';
 import moment from 'moment'
 
+import { onSnapshot } from "firebase/firestore";
+
 import { Contenedor, Titulo, Horas } from './Dia_styles'
 
 
 const Dia = ({ day, usuario }) => {
-   const horasArr = ['7:00', '8:00', '9:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00']
-   const [localArr, setLocalArr] = useState([])
+   const [citas, setCitas] = useState([])
+   const [localArr, setLocalArr] = useState(['7:00', '8:00', '9:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00'])
 
-   const apartarHora = async () => {
-      const hoursDocs = db.collection('apartados').doc(`semana-${moment().week()}`).collection(`semana-${moment().week()}-apartados`)
-      try {
-         await hoursDocs.get().then((docs) => {
-            let docsLocal = []
-
-            docs.forEach((doc) => {
-               //docsLocal.push([doc.id, doc.data()])
-
-               let hourDoc = {
-                  ...doc.data(),
-                  docId: doc.id,
-               }
-
-               if (day === hourDoc.dia) {
-                  if (horasArr.includes(hourDoc.hora)) {
-                     const i = horasArr.indexOf(hourDoc.hora)
-                     horasArr[i] = hourDoc
-                  }
-               }
-               
-            })
-
-            setLocalArr(horasArr)
+   useEffect(()  => {
+      const ref = db.collection('apartados').doc(`semana-${moment().week()}`).collection(`semana-${moment().week()}-apartados`)
+      let subscription = onSnapshot(ref, (querySnapshot) => {
+         const citasLocal = []
+         querySnapshot.forEach((doc) => {
+            citasLocal.push([doc.data(), doc.id])
          })
 
-      } catch (error) {
-         console.log(error)
-      }
-   }
+         setCitas(citasLocal)
+      })
 
-   useEffect(() => {
-      apartarHora()
    }, [])
 
-   const cargarDeNuevo = () => {
-      apartarHora()
-   }
+   useEffect(() => {
+      if (citas.length) {
+         const horasLocal = ['7:00', '8:00', '9:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00']
+         citas.forEach((cita) => {
+            if (horasLocal.includes(cita[0].hora) && cita[0].dia === day) {
+               const i = horasLocal.indexOf(cita[0].hora)
+               horasLocal[i] = {
+                  ...cita[0],
+                  docId: cita[1]
+               }
+            }
+         })
 
+         setLocalArr(horasLocal)
+      }
+   },[citas])
 
     return (
       <>
@@ -58,7 +50,7 @@ const Dia = ({ day, usuario }) => {
       <Horas>
          {  
             localArr.map(hour => {
-               return <Hora hour={hour} day={day} usuario={usuario}  cargarDeNuevo={() => cargarDeNuevo()}  />
+               return <Hora hour={hour} day={day} usuario={usuario}   />
             })
          }
        

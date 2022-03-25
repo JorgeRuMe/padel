@@ -3,12 +3,11 @@ import styled from 'styled-components'
 export const Contenedor = styled.div`
 text-align: center;
 width: 80%;
-background: ${({ apartado }) => apartado ? 'red' : null};
+background: ${({ apartado }) => apartado ? '#e5383b' : null};
 padding: 1rem 0rem 1rem 0rem;
-border: 1px solid #e63946;
-color: black;
-margin: 0rem 0rem 0.25rem 0rem;
-border: 1px solid #a8dadc;
+color: ${({ apartado }) => apartado ? 'white' : 'black'};
+margin: 0rem 0rem 0.4rem 0rem;
+border: ${({ apartado }) => apartado ? null : '2px solid #80ed99'};
 border-radius: 999px;
 `
 

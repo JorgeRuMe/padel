@@ -2,12 +2,16 @@ import styled from 'styled-components'
 
 export const Titulo = styled.div`
 font-size: 2rem;
-color: #023047;
+color: #2b2d42;
+font-family: 'Roboto', sans-serif;
+font-weight: 900;
 `
 
 export const Subtitulo = styled.div`
-font-size: 1rem;
-color: #457b9d;
+font-size: 1.3rem;
+color: #8d99ae;
+font-family: 'Roboto', sans-serif;
+font-weight: 700;
 `
 
 export const Contenedor = styled.div`
